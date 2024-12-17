@@ -1,0 +1,208 @@
+<html><head><base href="https://quantum-nexus.burzen54d.eth/">
+<title>Burzen 54D Quantum Nexus</title>
+<style>
+  :root {
+    --quantum-violet: #8A2BE2;
+    --digital-azure: #00ffff;
+    --void-black: #000000;
+    --rune-gold: #ffd700;
+    --ethereal-white: #ffffff;
+  }
+
+  body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--void-black);
+    font-family: 'Matrix Code NFI', monospace;
+    perspective: 1000px;
+  }
+
+  .quantum-realm {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    transform-style: preserve-3d;
+  }
+
+  .nexus-pillar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 80vh;
+    background: linear-gradient(var(--quantum-violet), var(--digital-azure));
+    animation: pillarPulse 4s infinite;
+    box-shadow: 0 0 50px var(--digital-azure);
+  }
+
+  .rune-grid {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: 
+      linear-gradient(90deg, var(--rune-gold) 1px, transparent 1px) 0 0,
+      linear-gradient(var(--rune-gold) 1px, transparent 1px) 0 0;
+    background-size: 50px 50px;
+    opacity: 0.2;
+    animation: gridFlow 20s linear infinite;
+  }
+
+  .doge {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0 0 10px var(--digital-azure));
+  }
+
+  .guild-member {
+    position: absolute;
+    width: 30px;
+    height: 80px;
+    background: var(--ethereal-white);
+    opacity: 0.6;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes pillarPulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+  }
+
+  @keyframes gridFlow {
+    0% { transform: translateZ(0); }
+    100% { transform: translateZ(1000px); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  .quantum-runes {
+    position: absolute;
+    font-size: 20px;
+    color: var(--rune-gold);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .token-stream {
+    position: absolute;
+    width: 2px;
+    background: var(--digital-azure);
+    animation: streamFlow 2s linear infinite;
+  }
+
+  @keyframes streamFlow {
+    0% { height: 0; opacity: 1; }
+    100% { height: 100vh; opacity: 0; }
+  }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <div class="quantum-realm">
+    <div class="rune-grid"></div>
+    <div class="nexus-pillar"></div>
+    
+    <svg class="nesorox-token" viewBox="0 0 100 100" style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 100px; height: 100px;">
+      <defs>
+        <linearGradient id="tokenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:var(--quantum-violet);stop-opacity:1" />
+          <stop offset="100%" style="stop-color:var(--digital-azure);stop-opacity:1" />
+        </linearGradient>
+      </defs>
+      <circle cx="50" cy="50" r="45" fill="url(#tokenGrad)" />
+      <path d="M30 50 L70 50 M50 30 L50 70" stroke="var(--ethereal-white)" stroke-width="2" />
+    </svg>
+  </div>
+
+  <script>
+    class QuantumRealm {
+      constructor() {
+        this.doges = [];
+        this.guildMembers = [];
+        this.runes = [];
+        this.init();
+      }
+
+      init() {
+        this.createDoges(5);
+        this.createGuildMembers(10);
+        this.animateTokenStreams();
+        this.generateRunes();
+        requestAnimationFrame(() => this.animate());
+      }
+
+      createDoges(count) {
+        for(let i = 0; i < count; i++) {
+          const doge = document.createElement('div');
+          doge.className = 'doge';
+          doge.style.left = `${Math.random() * 100}vw`;
+          doge.style.top = `${Math.random() * 100}vh`;
+          document.querySelector('.quantum-realm').appendChild(doge);
+          this.doges.push({
+            element: doge,
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            vx: (Math.random() - 0.5) * 4,
+            vy: (Math.random() - 0.5) * 4
+          });
+        }
+      }
+
+      createGuildMembers(count) {
+        for(let i = 0; i < count; i++) {
+          const member = document.createElement('div');
+          member.className = 'guild-member';
+          member.style.left = `${Math.random() * 100}vw`;
+          member.style.top = `${Math.random() * 100}vh`;
+          document.querySelector('.quantum-realm').appendChild(member);
+        }
+      }
+
+      generateRunes() {
+        const runeChars = '᚛᚜ᚠᚡᚢᚣᚤᚥᚦᚧᚨᚩᚪᚫᚬᚭᚮᚯ';
+        setInterval(() => {
+          const rune = document.createElement('div');
+          rune.className = 'quantum-runes';
+          rune.textContent = runeChars[Math.floor(Math.random() * runeChars.length)];
+          rune.style.left = `${Math.random() * 100}vw`;
+          rune.style.top = `${Math.random() * 100}vh`;
+          document.querySelector('.quantum-realm').appendChild(rune);
+          setTimeout(() => rune.remove(), 2000);
+        }, 100);
+      }
+
+      animateTokenStreams() {
+        setInterval(() => {
+          const stream = document.createElement('div');
+          stream.className = 'token-stream';
+          stream.style.left = `${Math.random() * 100}vw`;
+          document.querySelector('.quantum-realm').appendChild(stream);
+          setTimeout(() => stream.remove(), 2000);
+        }, 200);
+      }
+
+      animate() {
+        this.doges.forEach(doge => {
+          doge.x += doge.vx;
+          doge.y += doge.vy;
+
+          if(doge.x < 0 || doge.x > window.innerWidth) doge.vx *= -1;
+          if(doge.y < 0 || doge.y > window.innerHeight) doge.vy *= -1;
+
+          doge.element.style.transform = `translate(${doge.x}px, ${doge.y}px)`;
+        });
+
+        requestAnimationFrame(() => this.animate());
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const realm = new QuantumRealm();
+    });
+  </script>
+</body></html>
